@@ -1,38 +1,52 @@
-Role Name
+Nginx-role
 =========
 
-A brief description of the role goes here.
+Install nginx for proper work lighthouse.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+- OS Fedora 37 on managed nodes.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+- lighthouse_user: "root" 
 
 Dependencies
 ------------
+Install on vm's with lighthouse.
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Templates
+--------------
+nginx.conf.j2 - configuration file nginx.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Install role :
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+- Create file ```requirements.yml``` with:
+```yaml
+- src: git@github.com:reocoker85/nginx-role.git      
+  scm: git
+  version: "main"
+  name: nginx-role
+```
+- use command ```ansible-galaxy install -r requirements.yml -p roles``` for downloading role in directory roles.
 
-License
--------
+Use role ( playbook example):
 
-BSD
+```yaml
+- name: Install nginx
+  hosts: lighthouse
+  become: true
+  roles:
+    - nginx-role
+  tags: nginx
+```
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+### KIG
